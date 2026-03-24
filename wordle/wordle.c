@@ -8,6 +8,8 @@ Description: driver program to solve a wordle puzzle
 
 */
 
+int DEBUG = 1;
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,11 +36,20 @@ int main(){
     while(fscanf(fp, "%5s", word_list[word_list_index]) == 1){
         word_list_index++;
     }
+
+    //CHECKPOINT
+    if(DEBUG == 1){
+        printf("First word from potential-answers.txt: %5s.\n", word_list[0]);
+        printf("Last word from potential-answers.txt: %5s.\n", word_list[word_list_index - 1]);
+    }
     
     //generating a random number from 0 to word_list_index to use for target
 
     int random_index = rand() % word_list_index;
     strcpy(target, word_list[random_index]);
+
+    //CHECKPOINT
+    if(DEBUG == 1) printf("The selected answer from potential-answers.txt is: %5s.\n", target);
     
     int win_flag = 0;
 
