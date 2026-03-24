@@ -1,0 +1,16 @@
+CC = gcc
+CFLAGS = -g -Wall
+
+all: wordle
+
+wordle: wordle.o solver.o
+	$(CC) $(CFLAGS) wordle.o solver.o -o wordle
+
+wordle.o: wordle.c
+	$(CC) $(CFLAGS) -c wordle.c
+
+solver.o: solver.c
+	$(CC) $(CFLAGS) -c solver.c
+
+clean:
+	rm -f *.o wordle
