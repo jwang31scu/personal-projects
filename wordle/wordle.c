@@ -8,7 +8,7 @@ Description: driver program to solve a wordle puzzle
 
 */
 
-int DEBUG = 1;
+int DEBUG_W = 1;
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,55 +16,56 @@ int DEBUG = 1;
 #include <time.h>
 #include <assert.h>
 
-//functions from solver.c --> compile as gcc wordle.c solver.c -o wordle
-
-int isValidWord(char *input);
+int is_valid_word(char *input);
+int load_word_list(char word_list[][6]);
+void set_gray(char status_array[5][6]);
+void evaluate_guess(char guess[6], char target[6], char status_array[5][6]);
 
 int main(){
     srand(time(NULL));
     
+    printf("\n");
+
     char guess[6];
     char target[6];
 
-    //choosing the target word
-    char word_list[11000][6];
-    int word_list_index = 0;
-    FILE *fp = fopen("potential-answers.txt", "r");
-    assert(fp != NULL);
+    char word_array[11000][6];
+    int word_array_size = load_word_list(word_array);
 
-    //adding the words in the file into an array
-    while(fscanf(fp, "%5s", word_list[word_list_index]) == 1){
-        word_list_index++;
-    }
+    int random_index = rand() % word_array_size;
+    strcpy(target, word_array[random_index]);
 
-    //CHECKPOINT
-    if(DEBUG == 1){
-        printf("First word from potential-answers.txt: %5s.\n", word_list[0]);
-        printf("Last word from potential-answers.txt: %5s.\n", word_list[word_list_index - 1]);
-    }
+    if(DEBUG_W == 1) printf("The selected answer from potential-answers.txt is: %5s.\n", target);
     
-    //generating a random number from 0 to word_list_index to use for target
 
-    int random_index = rand() % word_list_index;
-    strcpy(target, word_list[random_index]);
 
-    //CHECKPOINT
-    if(DEBUG == 1) printf("The selected answer from potential-answers.txt is: %5s.\n", target);
-    
+    //GAME START
     int win_flag = 0;
-
-    //taking in the user's inputs via a while loop
     int guess_tracker = 1;
     while (guess_tracker < 7){
+        printf("\n");
         printf("You are on guess #%d.\n", guess_tracker);
         printf("Enter a 5 letter guess: \n");
 
         scanf("%5s", guess);
 
-        if (isValidWord(guess) != 1){
+        if (is_valid_word(guess) != 1){
             printf("Invalid word. Try again.\n");
             continue;
         }
+
+        //ACTUAL GAME LOGIC
+
+        char status_array[5][6];
+        set_gray(status_array);
+        evaluate_guess(guess, target, status_array);
+            
+        for (int i = 0; i < 5; i++) printf("   %c   ", guess[i]);
+        printf("\n");
+        for (int i = 0; i < 5; i++) printf("%s ", status_array[i]);
+        printf("\n");
+
+
 
 
 
