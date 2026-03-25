@@ -85,7 +85,7 @@ void evaluate_guess(char guess[6], char target[6], char status_array[5][6]){
         if (strcmp(status_array[i], "green") == 0) continue;
 
         for (int j = 0; j < 5; j++){
-            if ((used[i] != 1) && guess[i] == target[j]){
+            if ((used[j] != 1) && guess[i] == target[j]){
                 strcpy(status_array[i], "yellow");
                 used[j] = 1;
                 break;

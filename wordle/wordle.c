@@ -60,9 +60,9 @@ int main(){
         set_gray(status_array);
         evaluate_guess(guess, target, status_array);
             
-        for (int i = 0; i < 5; i++) printf("   %c   ", guess[i]);
+        for (int i = 0; i < 5; i++) printf("    %c    ", guess[i]);
         printf("\n");
-        for (int i = 0; i < 5; i++) printf("%s ", status_array[i]);
+        for (int i = 0; i < 5; i++) printf(" %s   ", status_array[i]);
         printf("\n");
 
 
